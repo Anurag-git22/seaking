@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { 
   Phone, 
   MapPin, 
@@ -16,7 +16,8 @@ import {
   Calendar, 
   User, 
   CheckCircle2, 
-  ArrowUpRight
+  ArrowUpRight,
+  Play
 } from 'lucide-react'
 import { WhatsAppIcon } from './components/WhatsAppIcon'
 
@@ -115,12 +116,24 @@ const GALLERY_ITEMS = [
   { src: '/images/Gallery2.jpg', title: "Sea King Safari Boat 'Angriya' at Shore", category: 'Our Fleet' }
 ]
 
+// Video files for gallery
+const VIDEOS = [
+  '/images/video/V1.mp4',
+  '/images/video/V2.mp4',
+  '/images/video/V3.mp4',
+  '/images/video/V4.mp4',
+  '/images/video/V5.MP4'
+]
+
 export default function App() {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
   const [formSubmitted, setFormSubmitted] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [activeSection, setActiveSection] = useState('home')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [galleryFilter, setGalleryFilter] = useState<'all' | 'photos' | 'videos'>('all')
+  const videoRefs = useRef<{ [key: number]: HTMLVideoElement | null }>({})
+  const lightboxVideoRef = useRef<HTMLVideoElement | null>(null)
 
   const [formData, setFormData] = useState({
     name: '',
@@ -159,20 +172,44 @@ export default function App() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Keyboard controls for lightbox
+  // Keyboard controls for lightbox and body scroll lock
   useEffect(() => {
+    const totalItems = GALLERY_ITEMS.length + VIDEOS.length
+    
     const handleKeyDown = (e: KeyboardEvent) => {
       if (lightboxIndex === null) return
-      if (e.key === 'Escape') setLightboxIndex(null)
+      if (e.key === 'Escape') {
+        setLightboxIndex(null)
+        if (lightboxVideoRef.current) {
+          lightboxVideoRef.current.pause()
+        }
+      }
       if (e.key === 'ArrowRight') {
-        setLightboxIndex((prev) => (prev !== null ? (prev + 1) % GALLERY_ITEMS.length : null))
+        if (lightboxVideoRef.current) {
+          lightboxVideoRef.current.pause()
+        }
+        setLightboxIndex((prev) => (prev !== null ? (prev + 1) % totalItems : null))
       }
       if (e.key === 'ArrowLeft') {
-        setLightboxIndex((prev) => (prev !== null ? (prev - 1 + GALLERY_ITEMS.length) % GALLERY_ITEMS.length : null))
+        if (lightboxVideoRef.current) {
+          lightboxVideoRef.current.pause()
+        }
+        setLightboxIndex((prev) => (prev !== null ? (prev - 1 + totalItems) % totalItems : null))
       }
     }
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
+    
+    // Lock body scroll when lightbox is open
+    if (lightboxIndex !== null) {
+      document.body.style.overflow = 'hidden'
+      window.addEventListener('keydown', handleKeyDown)
+    } else {
+      document.body.style.overflow = ''
+    }
+    
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+      document.body.style.overflow = ''
+    }
   }, [lightboxIndex])
 
   const handleFormSubmit = (e: React.FormEvent) => {
@@ -656,109 +693,211 @@ export default function App() {
         </div>
       </section>
 
-      {/* SECTION 5: GALLERY WITH LIGHTBOX */}
+      {/* SECTION 5: GALLERY WITH PHOTOS & VIDEOS */}
       <section id="gallery" className="py-16 sm:py-24 max-w-6xl mx-auto px-4 sm:px-6 scroll-mt-20">
-        <div className="text-center max-w-xl mx-auto mb-12">
+        <div className="text-center max-w-xl mx-auto mb-8">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sand-light text-sand-warm text-xs font-bold tracking-wide uppercase mb-3">
             <Compass className="w-3.5 h-3.5" />
-            Photo Collection
+            Media Collection
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-navy tracking-tight">
             Gallery
           </h2>
           <p className="text-slate-500 text-sm sm:text-base mt-2">
-            Moments on the calm Malvan backwaters & sapphire sea. Tap any image to enlarge.
+            Moments on the calm Malvan backwaters & sapphire sea. Tap to view.
           </p>
         </div>
 
-        {/* 8 Photo Responsive Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-          {GALLERY_ITEMS.map((item, index) => (
+        {/* Filter Tabs */}
+        <div className="flex items-center justify-center gap-2 mb-8">
+          {(['all', 'photos', 'videos'] as const).map((filter) => (
             <button
-              key={index}
+              key={filter}
+              onClick={() => setGalleryFilter(filter)}
+              className={`px-4 py-2 rounded-full text-sm font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-teal ${
+                galleryFilter === filter
+                  ? 'bg-teal text-white shadow-md'
+                  : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200'
+              }`}
+            >
+              {filter.charAt(0).toUpperCase() + filter.slice(1)}
+            </button>
+          ))}
+        </div>
+
+        {/* Masonry Grid */}
+        <div className="columns-1 sm:columns-2 lg:columns-3 gap-3 sm:gap-4 space-y-3 sm:space-y-4">
+          {/* Photos */}
+          {(galleryFilter === 'all' || galleryFilter === 'photos') && GALLERY_ITEMS.map((item, index) => (
+            <button
+              key={`photo-${index}`}
               onClick={() => setLightboxIndex(index)}
-              className="group relative aspect-square sm:aspect-[4/3] rounded-2xl overflow-hidden bg-slate-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-teal focus:ring-offset-2 text-left"
-              aria-label={`View photo ${item.title}`}
+              className="group relative w-full aspect-[4/5] rounded-2xl overflow-hidden bg-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-teal focus:ring-offset-2 break-inside-avoid mb-3 sm:mb-4"
+              aria-label={`View photo: ${item.title}`}
             >
               <img
                 src={item.src}
                 alt={item.title}
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 loading="lazy"
                 onError={(e) => {
                   (e.target as HTMLImageElement).src = '/images/boating.jpg'
                 }}
               />
-              <div className="absolute inset-0 bg-navy/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
-                <span className="text-white text-xs font-semibold drop-shadow-md truncate">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
+                <span className="text-white text-xs font-semibold drop-shadow-md line-clamp-2">
                   {item.title}
                 </span>
               </div>
             </button>
           ))}
+
+          {/* Videos */}
+          {(galleryFilter === 'all' || galleryFilter === 'videos') && VIDEOS.map((videoSrc, index) => {
+            const videoIndex = GALLERY_ITEMS.length + index
+            return (
+              <div
+                key={`video-${index}`}
+                className="group relative w-full aspect-video rounded-2xl overflow-hidden bg-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 break-inside-avoid mb-3 sm:mb-4 cursor-pointer"
+                onClick={() => setLightboxIndex(videoIndex)}
+                onMouseEnter={() => {
+                  const video = videoRefs.current[videoIndex]
+                  if (video && window.innerWidth >= 1024) {
+                    video.play().catch(() => {})
+                  }
+                }}
+                onMouseLeave={() => {
+                  const video = videoRefs.current[videoIndex]
+                  if (video && window.innerWidth >= 1024) {
+                    video.pause()
+                    video.currentTime = 0
+                  }
+                }}
+              >
+                <video
+                  ref={(el) => { videoRefs.current[videoIndex] = el }}
+                  src={videoSrc}
+                  className="w-full h-full object-cover"
+                  muted
+                  playsInline
+                  preload="metadata"
+                  loop
+                />
+                
+                {/* Video chip */}
+                <span className="absolute top-3 left-3 bg-navy/90 backdrop-blur-md text-white text-[11px] font-semibold px-2.5 py-1 rounded-md shadow-md">
+                  Video
+                </span>
+
+                {/* Play button overlay */}
+                <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white/95 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <Play className="w-8 h-8 sm:w-10 sm:h-10 text-teal fill-teal ml-1" />
+                  </div>
+                </div>
+              </div>
+            )
+          })}
         </div>
       </section>
 
       {/* LIGHTBOX MODAL */}
-      {lightboxIndex !== null && (
-        <div 
-          className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in"
-          onClick={() => setLightboxIndex(null)}
-        >
-          {/* Close button */}
-          <button
-            onClick={() => setLightboxIndex(null)}
-            className="absolute top-4 right-4 z-50 p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors focus:outline-none focus:ring-2 focus:ring-teal"
-            aria-label="Close image viewer"
-          >
-            <X className="w-6 h-6" />
-          </button>
+      {lightboxIndex !== null && (() => {
+        const totalItems = GALLERY_ITEMS.length + VIDEOS.length
+        const isVideo = lightboxIndex >= GALLERY_ITEMS.length
+        const currentItem = isVideo 
+          ? { src: VIDEOS[lightboxIndex - GALLERY_ITEMS.length], title: `Safari Video ${lightboxIndex - GALLERY_ITEMS.length + 1}`, category: 'Video' }
+          : GALLERY_ITEMS[lightboxIndex]
 
-          {/* Previous button */}
-          <button
-            onClick={(e) => {
-              e.stopPropagation()
-              setLightboxIndex((prev) => (prev !== null ? (prev - 1 + GALLERY_ITEMS.length) % GALLERY_ITEMS.length : null))
-            }}
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-50 p-3 rounded-full bg-white/10 hover:bg-white/25 text-white transition-colors focus:outline-none focus:ring-2 focus:ring-teal"
-            aria-label="Previous image"
-          >
-            <ChevronLeft className="w-6 h-6" />
-          </button>
-
-          {/* Next button */}
-          <button
-            onClick={(e) => {
-              e.stopPropagation()
-              setLightboxIndex((prev) => (prev !== null ? (prev + 1) % GALLERY_ITEMS.length : null))
-            }}
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-50 p-3 rounded-full bg-white/10 hover:bg-white/25 text-white transition-colors focus:outline-none focus:ring-2 focus:ring-teal"
-            aria-label="Next image"
-          >
-            <ChevronRight className="w-6 h-6" />
-          </button>
-
-          {/* Active Image container */}
+        return (
           <div 
-            className="relative max-w-4xl max-h-[85vh] w-full flex flex-col items-center justify-center"
-            onClick={(e) => e.stopPropagation()}
+            className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in overflow-hidden"
+            onClick={() => {
+              setLightboxIndex(null)
+              if (lightboxVideoRef.current) {
+                lightboxVideoRef.current.pause()
+              }
+            }}
+            style={{ touchAction: 'pan-y' }}
           >
-            <img
-              src={GALLERY_ITEMS[lightboxIndex].src}
-              alt={GALLERY_ITEMS[lightboxIndex].title}
-              className="max-w-full max-h-[75vh] object-contain rounded-xl shadow-2xl"
-            />
-            <div className="mt-4 text-center text-white">
-              <p className="font-semibold text-base sm:text-lg">
-                {GALLERY_ITEMS[lightboxIndex].title}
-              </p>
-              <p className="text-xs text-slate-400 mt-1">
-                {lightboxIndex + 1} of {GALLERY_ITEMS.length} • {GALLERY_ITEMS[lightboxIndex].category}
-              </p>
+            {/* Close button */}
+            <button
+              onClick={() => {
+                setLightboxIndex(null)
+                if (lightboxVideoRef.current) {
+                  lightboxVideoRef.current.pause()
+                }
+              }}
+              className="absolute top-4 right-4 z-50 p-2.5 min-w-[44px] min-h-[44px] rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors focus:outline-none focus:ring-2 focus:ring-teal"
+              aria-label="Close viewer"
+            >
+              <X className="w-6 h-6" />
+            </button>
+
+            {/* Previous button */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                if (lightboxVideoRef.current) {
+                  lightboxVideoRef.current.pause()
+                }
+                setLightboxIndex((prev) => (prev !== null ? (prev - 1 + totalItems) % totalItems : null))
+              }}
+              className="absolute left-4 top-1/2 -translate-y-1/2 z-50 p-3 min-w-[44px] min-h-[44px] rounded-full bg-white/10 hover:bg-white/25 text-white transition-colors focus:outline-none focus:ring-2 focus:ring-teal"
+              aria-label="Previous item"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+
+            {/* Next button */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                if (lightboxVideoRef.current) {
+                  lightboxVideoRef.current.pause()
+                }
+                setLightboxIndex((prev) => (prev !== null ? (prev + 1) % totalItems : null))
+              }}
+              className="absolute right-4 top-1/2 -translate-y-1/2 z-50 p-3 min-w-[44px] min-h-[44px] rounded-full bg-white/10 hover:bg-white/25 text-white transition-colors focus:outline-none focus:ring-2 focus:ring-teal"
+              aria-label="Next item"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+
+            {/* Active Item container */}
+            <div 
+              className="relative max-w-5xl w-full flex flex-col items-center justify-center"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {isVideo ? (
+                <video
+                  ref={lightboxVideoRef}
+                  src={currentItem.src}
+                  className="max-w-full max-h-[85vh] object-contain rounded-xl shadow-2xl"
+                  controls
+                  autoPlay
+                  playsInline
+                  controlsList="nodownload"
+                />
+              ) : (
+                <img
+                  src={currentItem.src}
+                  alt={currentItem.title}
+                  className="max-w-full max-h-[85vh] object-contain rounded-xl shadow-2xl"
+                />
+              )}
+              <div className="mt-4 text-center text-white px-4">
+                <p className="font-semibold text-base sm:text-lg">
+                  {currentItem.title}
+                </p>
+                <p className="text-xs text-slate-400 mt-1">
+                  {lightboxIndex + 1} of {totalItems} • {currentItem.category}
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )
+      })()}
 
       {/* SECTION 6: CONTACT & ENQUIRY */}
       <section id="contact" className="py-16 sm:py-24 bg-white border-t border-slate-200/60 scroll-mt-20">
