@@ -64,21 +64,21 @@ const EXPERIENCES = [
     id: 'devbag-beach',
     title: 'Devbag Beach',
     description: 'Calm golden shoreline',
-    image: '/images/experiences/devbag-beach.jpg',
+    image: '/images/devbagh-beach.jpg',
     tag: 'Beach'
   },
   {
     id: 'seagull-island',
     title: 'Seagull Birds & Island',
     description: 'Flocks of seagulls on the sandbank',
-    image: '/images/experiences/seagull-island.jpg',
+    image: '/images/Seagull.jpg',
     tag: 'Wildlife'
   },
   {
     id: 'mini-kerala',
     title: 'Mini Kerala',
     description: 'Palm-fringed backwaters',
-    image: '/images/experiences/mini-kerala.jpg',
+    image: '/images/Minikerala.jpg',
     tag: 'Backwaters'
   },
   {
@@ -92,7 +92,7 @@ const EXPERIENCES = [
     id: 'crocodile-point',
     title: 'Crocodile Point',
     description: 'Rocky coastal viewpoint',
-    image: '/images/experiences/crocodile-point.jpg',
+    image: '/images/crocodile-point.jpg',
     tag: 'Coastal'
   },
   {
