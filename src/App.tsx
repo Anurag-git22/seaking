@@ -113,7 +113,11 @@ const GALLERY_ITEMS = [
   { src: '/images/tsunami-clean.jpg', title: 'Tsunami Island Watersports Hub', category: 'Island Adventure' },
   { src: '/images/MangroveSafari-clean.jpg', title: 'Pristine Karli Mangrove Channels', category: 'Mangroves' },
   { src: '/images/Bhogwe-clean.jpg', title: 'Bhogwe Beach Pristine Coastline', category: 'Bhogwe Beach' },
-  { src: '/images/Gallery2.jpg', title: "Sea King Safari Boat 'Angriya' at Shore", category: 'Our Fleet' }
+  { src: '/images/Gallery2.jpg', title: "Sea King Safari Boat 'Angriya' at Shore", category: 'Our Fleet' },
+  { src: '/images/devbagh-beach.jpg', title: 'Devbag Beach - Calm Golden Shoreline', category: 'Beach' },
+  { src: '/images/Seagull.jpg', title: 'Seagull Birds & Island Safari', category: 'Wildlife' },
+  { src: '/images/Minikerala.jpg', title: 'Mini Kerala - Palm-Fringed Backwaters', category: 'Backwaters' },
+  { src: '/images/crocodile-point.jpg', title: 'Crocodile Point - Rocky Coastal Viewpoint', category: 'Coastal' }
 ]
 
 // Video files for gallery
