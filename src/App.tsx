@@ -709,12 +709,12 @@ export default function App() {
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex items-center justify-center gap-2 mb-8">
+        <div className="flex items-center justify-center gap-2 mb-12">
           {(['all', 'photos', 'videos'] as const).map((filter) => (
             <button
               key={filter}
               onClick={() => setGalleryFilter(filter)}
-              className={`px-4 py-2 rounded-full text-sm font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-teal ${
+              className={`px-4 py-2 min-h-[40px] rounded-full text-sm font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-teal ${
                 galleryFilter === filter
                   ? 'bg-teal text-white shadow-md'
                   : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200'
@@ -725,26 +725,26 @@ export default function App() {
           ))}
         </div>
 
-        {/* Grid Layout - Same as before */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+        {/* Centered Flex Grid */}
+        <div className="flex flex-wrap justify-center gap-3 sm:gap-4 transition-opacity duration-200">
           {/* Photos */}
           {(galleryFilter === 'all' || galleryFilter === 'photos') && GALLERY_ITEMS.map((item, index) => (
             <button
               key={`photo-${index}`}
               onClick={() => setLightboxIndex(index)}
-              className="group relative aspect-square sm:aspect-[4/3] rounded-2xl overflow-hidden bg-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-teal focus:ring-offset-2"
+              className="group relative w-[calc(50%-6px)] sm:w-[calc(33.333%-11px)] lg:w-[calc(25%-12px)] aspect-[4/3] rounded-2xl overflow-hidden bg-slate-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-teal focus:ring-offset-2"
               aria-label={`View photo: ${item.title}`}
             >
               <img
                 src={item.src}
                 alt={item.title}
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 loading="lazy"
                 onError={(e) => {
                   (e.target as HTMLImageElement).src = '/images/boating.jpg'
                 }}
               />
-              <div className="absolute inset-0 bg-navy/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
                 <span className="text-white text-xs font-semibold drop-shadow-md truncate">
                   {item.title}
                 </span>
@@ -758,7 +758,7 @@ export default function App() {
             return (
               <div
                 key={`video-${index}`}
-                className="group relative aspect-square sm:aspect-[4/3] rounded-2xl overflow-hidden bg-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer"
+                className="group relative w-[calc(50%-6px)] sm:w-[calc(33.333%-11px)] lg:w-[calc(25%-12px)] aspect-[4/3] rounded-2xl overflow-hidden bg-slate-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer"
                 onClick={() => setLightboxIndex(videoIndex)}
                 onMouseEnter={() => {
                   const video = videoRefs.current[videoIndex]
@@ -777,7 +777,7 @@ export default function App() {
                 <video
                   ref={(el) => { videoRefs.current[videoIndex] = el }}
                   src={videoSrc}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   muted
                   playsInline
                   preload="metadata"
@@ -785,16 +785,19 @@ export default function App() {
                 />
                 
                 {/* Video chip */}
-                <span className="absolute top-3 left-3 bg-navy/90 backdrop-blur-md text-white text-[11px] font-semibold px-2.5 py-1 rounded-md shadow-md z-10">
+                <span className="absolute top-2 left-2 sm:top-3 sm:left-3 bg-navy/90 backdrop-blur-md text-white text-[10px] sm:text-[11px] font-semibold px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md shadow-md z-10">
                   Video
                 </span>
 
                 {/* Play button overlay */}
                 <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors z-10">
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white/95 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                    <Play className="w-8 h-8 sm:w-10 sm:h-10 text-teal fill-teal ml-1" />
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-white/95 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <Play className="w-6 h-6 sm:w-8 sm:h-8 text-teal fill-teal ml-0.5 sm:ml-1" />
                   </div>
                 </div>
+
+                {/* Hover gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
               </div>
             )
           })}
