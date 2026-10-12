@@ -43,52 +43,63 @@ const InstagramIcon = ({ className = "w-5 h-5" }: { className?: string }) => (
   </svg>
 )
 
-// 5 Signature Tour Experiences
+// 8 Signature Tour Experiences
 const EXPERIENCES = [
+  {
+    id: 'sangam-point',
+    title: 'Sangam Point',
+    description: 'Where the river meets the sea',
+    image: '/images/SangamPoint-clean.jpg',
+    tag: 'Scenic Confluence'
+  },
   {
     id: 'tsunami-island',
     title: 'Tsunami Island',
     description: 'Water sports, jet ski, bumper and banana rides',
     image: '/images/tsunami-clean.jpg',
-    tag: 'Island & Watersports',
-    duration: '1 - 2 Hours',
-    popular: true
+    tag: 'Island & Watersports'
   },
   {
-    id: 'devbag-sangam',
-    title: 'Devbag Sangam & Backwaters',
-    description: 'Where the river meets the sea',
-    image: '/images/SangamPoint-clean.jpg',
-    tag: 'Scenic Confluence',
-    duration: '45 - 60 Mins',
-    popular: false
+    id: 'devbag-beach',
+    title: 'Devbag Beach',
+    description: 'Calm golden shoreline',
+    image: '/images/experiences/devbag-beach.jpg',
+    tag: 'Beach'
+  },
+  {
+    id: 'seagull-island',
+    title: 'Seagull Birds & Island',
+    description: 'Flocks of seagulls on the sandbank',
+    image: '/images/experiences/seagull-island.jpg',
+    tag: 'Wildlife'
+  },
+  {
+    id: 'mini-kerala',
+    title: 'Mini Kerala',
+    description: 'Palm-fringed backwaters',
+    image: '/images/experiences/mini-kerala.jpg',
+    tag: 'Backwaters'
+  },
+  {
+    id: 'bhogwe-beach',
+    title: 'Bhogwe Beach',
+    description: 'Scenic Konkan coastline',
+    image: '/images/Bhogwe-clean.jpg',
+    tag: 'Coastal'
+  },
+  {
+    id: 'crocodile-point',
+    title: 'Crocodile Point',
+    description: 'Rocky coastal viewpoint',
+    image: '/images/experiences/crocodile-point.jpg',
+    tag: 'Coastal'
   },
   {
     id: 'dolphin-safari',
     title: 'Dolphin Safari',
     description: 'Spot dolphins near the creek mouth',
     image: '/images/dolphin-clean.jpg',
-    tag: 'Wildlife Safari',
-    duration: '60 Mins (Morning)',
-    popular: false
-  },
-  {
-    id: 'bhogwe-beach',
-    title: 'Bhogwe Beach & Crocodile Point',
-    description: 'Coastal excursions',
-    image: '/images/Bhogwe-clean.jpg',
-    tag: 'Coastal Cliffs',
-    duration: '1.5 Hours',
-    popular: false
-  },
-  {
-    id: 'mangrove-safari',
-    title: 'Mangrove Safari',
-    description: 'Boat tours through mangrove channels',
-    image: '/images/MangroveSafari-clean.jpg',
-    tag: 'Eco Backwaters',
-    duration: '45 Mins',
-    popular: false
+    tag: 'Wildlife'
   }
 ]
 
@@ -569,7 +580,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* SECTION 3: EXPERIENCES (5 CARDS WITH CENTERED LAST ROW) */}
+      {/* SECTION 3: EXPERIENCES (8 CARDS) */}
       <section id="experiences" className="py-16 sm:py-24 bg-slate-100/70 border-y border-slate-200/60 scroll-mt-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="text-center max-w-xl mx-auto mb-14">
@@ -585,22 +596,24 @@ export default function App() {
             </p>
           </div>
 
-          {/* Responsive Layout: 1 col on mobile, 2 on tablet, 3 on desktop with centered last row */}
-          <div className="flex flex-wrap justify-center gap-6">
+          {/* Responsive Layout: 1 col on mobile, 2 on tablet, 4 on desktop (2 rows of 4) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {EXPERIENCES.map((exp) => (
               <div
                 key={exp.id}
-                className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] max-w-md flex flex-col bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
+                className="flex flex-col bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
               >
                 {/* Fixed Image Ratio 16:10 */}
-                <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
+                <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-teal/20 to-navy/20">
                   <img
                     src={exp.image}
                     alt={`${exp.title} boat safari experience in Malvan`}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     loading="lazy"
                     onError={(e) => {
-                      (e.target as HTMLImageElement).src = '/images/boating.jpg'
+                      const target = e.target as HTMLImageElement
+                      target.style.display = 'none'
+                      target.parentElement!.classList.add('bg-gradient-to-br', 'from-teal/30', 'to-navy/30')
                     }}
                   />
                   {/* Subtle gradient for chip readability */}
@@ -609,19 +622,6 @@ export default function App() {
                   {/* Top-left category chip with strong background */}
                   <span className="absolute top-3 left-3 bg-navy/90 backdrop-blur-md text-white text-[11px] font-semibold px-2.5 py-1 rounded-md shadow-md">
                     {exp.tag}
-                  </span>
-
-                  {/* "Most Popular" badge on Tsunami Island only */}
-                  {exp.popular && (
-                    <span className="absolute top-3 right-3 bg-sand text-navy text-[11px] font-bold px-2.5 py-1 rounded-md shadow-md flex items-center gap-1">
-                      <Star className="w-3 h-3 fill-navy text-navy" />
-                      <span>Most Popular</span>
-                    </span>
-                  )}
-
-                  {/* Bottom-right duration chip with strong background */}
-                  <span className="absolute bottom-3 right-3 bg-navy/90 backdrop-blur-md text-white text-[11px] font-medium px-2.5 py-1 rounded-md shadow-md">
-                    {exp.duration}
                   </span>
                 </div>
 
