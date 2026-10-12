@@ -668,10 +668,10 @@ export default function App() {
 
                   {/* Bottom-left serial number badge */}
                   <div 
-                    className="absolute bottom-3 left-3 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/95 flex items-center justify-center shadow-md ring-2 ring-white"
+                    className="absolute bottom-3 left-3 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/95 flex items-center justify-center shadow-md ring-2 ring-white"
                     aria-hidden="true"
                   >
-                    <span className="text-teal font-bold text-sm sm:text-base tabular-nums">
+                    <span className="text-teal font-bold text-xs sm:text-sm tabular-nums">
                       {index + 1}
                     </span>
                   </div>
