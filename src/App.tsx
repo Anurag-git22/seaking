@@ -639,10 +639,11 @@ export default function App() {
 
           {/* Responsive Layout: 1 col on mobile, 2 on tablet, 4 on desktop (2 rows of 4) */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {EXPERIENCES.map((exp) => (
+            {EXPERIENCES.map((exp, index) => (
               <div
                 key={exp.id}
                 className="flex flex-col bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
+                aria-label={`Tour ${index + 1} of ${EXPERIENCES.length}: ${exp.title}`}
               >
                 {/* Fixed Image Ratio 16:10 */}
                 <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-teal/20 to-navy/20">
@@ -664,6 +665,16 @@ export default function App() {
                   <span className="absolute top-3 left-3 bg-navy/90 backdrop-blur-md text-white text-[11px] font-semibold px-2.5 py-1 rounded-md shadow-md">
                     {exp.tag}
                   </span>
+
+                  {/* Bottom-left serial number badge */}
+                  <div 
+                    className="absolute bottom-3 left-3 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/95 flex items-center justify-center shadow-md ring-2 ring-white"
+                    aria-hidden="true"
+                  >
+                    <span className="text-teal font-bold text-sm sm:text-base tabular-nums">
+                      {index + 1}
+                    </span>
+                  </div>
                 </div>
 
                 {/* Card Body - Equal Height & Button at bottom */}
