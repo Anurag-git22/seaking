@@ -302,40 +302,6 @@ export default function Contact() {
 
           </div>
         </div>
-
-        {/* CTA BANNER */}
-        <section className="py-16 sm:py-24 bg-gradient-to-br from-teal to-teal-dark text-white">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-            <motion.h2 
-              className="text-3xl sm:text-4xl font-extrabold mb-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-            >
-              Ready for Your Adventure?
-            </motion.h2>
-            <motion.p 
-              className="text-lg sm:text-xl text-teal-soft mb-8"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-            >
-              Book your Malvan boat safari today
-            </motion.p>
-            <motion.a
-              href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hello! I want to book a Sea King Safari tour.')}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-white text-teal font-bold text-lg hover:bg-slate-100 transition-all shadow-xl active:scale-95"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-            >
-              <WhatsAppIcon size={24} />
-              <span>Book on WhatsApp</span>
-            </motion.a>
-          </div>
-        </section>
       </div>
     </>
   )
