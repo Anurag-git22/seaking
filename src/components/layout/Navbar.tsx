@@ -67,7 +67,7 @@ export const Navbar = () => {
             <Link
               key={link.path}
               to={link.path}
-              className={`group relative py-1 transition-colors focus:outline-none focus:ring-2 focus:ring-teal rounded ${
+              className={`group relative py-1 transition-colors focus:outline-none ${
                 isActive(link.path) ? 'text-teal-soft font-semibold' : 'text-slate-200 hover:text-white'
               }`}
             >
