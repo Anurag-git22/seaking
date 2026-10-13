@@ -640,8 +640,8 @@ export default function App() {
             </p>
           </div>
 
-          {/* Responsive Layout: 1 col on mobile, 2 on tablet, 4 on desktop (2 rows of 4) */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Responsive Layout: 2 cols on mobile, 2 on tablet, 4 on desktop (2 rows of 4) */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {EXPERIENCES.map((exp, index) => (
               <div
                 key={exp.id}
