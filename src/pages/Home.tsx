@@ -406,27 +406,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* CTA BANNER */}
-      <section className="py-16 sm:py-24 bg-gradient-to-br from-teal to-teal-dark text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-          <h2 className="text-3xl sm:text-4xl font-extrabold mb-4">
-            Ready for Your Adventure?
-          </h2>
-          <p className="text-lg sm:text-xl text-teal-soft mb-8">
-            Book your Malvan boat safari today
-          </p>
-          <a
-            href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hello! I want to book a Sea King Safari tour.')}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-white text-teal font-bold text-lg hover:bg-slate-100 transition-all shadow-xl active:scale-95"
-          >
-            <WhatsAppIcon size={24} />
-            <span>Book on WhatsApp</span>
-          </a>
-        </div>
-      </section>
     </>
   )
 }
