@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Phone, User, Calendar, CheckCircle2, ChevronRight } from 'lucide-react'
+import { Phone, User, Calendar, CheckCircle2, ChevronRight, Loader2, AlertCircle } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { SEO } from '../components/SEO'
 import { PHONE_NUMBER, PHONE_DISPLAY, WHATSAPP_NUMBER, INSTAGRAM_URL, EXPERIENCES } from '../data/constants'
@@ -13,8 +13,13 @@ const InstagramIcon = ({ className = "w-5 h-5" }: { className?: string }) => (
   </svg>
 )
 
+// Google Apps Script Web App URL
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxW3HYs_VNnQ67Zw5zd-2P3SzUG09ZDc8ygOlFvei0Vvg1cO3FBnKbsKLSHUpoiOl9U/exec'
+
 export default function Contact() {
   const [formSubmitted, setFormSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -22,14 +27,75 @@ export default function Contact() {
     experience: 'Tsunami Island'
   })
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!formData.name || !formData.phone) return
+    if (isSubmitting) return // Prevent duplicate submissions
 
-    const msg = `*New Safari Enquiry - Sea King Malvan*%0A• *Name:* ${encodeURIComponent(formData.name)}%0A• *Phone:* ${encodeURIComponent(formData.phone)}%0A• *Date:* ${encodeURIComponent(formData.date || 'Flexible')}%0A• *Experience:* ${encodeURIComponent(formData.experience)}`
-    
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank')
-    setFormSubmitted(true)
+    setIsSubmitting(true)
+    setError(null)
+
+    try {
+      // Create a hidden iframe to submit the form
+      // This is the standard way to handle Google Apps Script POST requests
+      const iframe = document.createElement('iframe')
+      iframe.name = 'hidden-form-iframe'
+      iframe.style.display = 'none'
+      document.body.appendChild(iframe)
+
+      // Create a temporary form
+      const tempForm = document.createElement('form')
+      tempForm.method = 'POST'
+      tempForm.action = GOOGLE_SCRIPT_URL
+      tempForm.target = 'hidden-form-iframe'
+
+      // Add form fields
+      const fields = {
+        'name': formData.name,
+        'phone': formData.phone,
+        'date': formData.date || 'Flexible',
+        'experience': formData.experience
+      }
+
+      Object.entries(fields).forEach(([key, value]) => {
+        const input = document.createElement('input')
+        input.type = 'hidden'
+        input.name = key
+        input.value = value
+        tempForm.appendChild(input)
+      })
+
+      document.body.appendChild(tempForm)
+
+      // Submit the form
+      tempForm.submit()
+
+      // Wait a moment for the submission to process
+      await new Promise(resolve => setTimeout(resolve, 1500))
+
+      // Clean up
+      document.body.removeChild(tempForm)
+      document.body.removeChild(iframe)
+
+      // Success: Open WhatsApp with prefilled message
+      const msg = `*New Safari Enquiry - Sea King Malvan*%0A• *Name:* ${encodeURIComponent(formData.name)}%0A• *Phone:* ${encodeURIComponent(formData.phone)}%0A• *Date:* ${encodeURIComponent(formData.date || 'Flexible')}%0A• *Experience:* ${encodeURIComponent(formData.experience)}`
+      
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank')
+      
+      // Mark as submitted and reset form
+      setFormSubmitted(true)
+      setFormData({
+        name: '',
+        phone: '',
+        date: '',
+        experience: 'Tsunami Island'
+      })
+    } catch (err) {
+      console.error('Form submission error:', err)
+      setError('Failed to submit enquiry. Please try WhatsApp directly or call us.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -147,8 +213,8 @@ export default function Contact() {
               {formSubmitted ? (
                 <div className="p-6 rounded-2xl bg-teal-soft border border-teal text-center space-y-3">
                   <CheckCircle2 className="w-10 h-10 text-teal mx-auto" />
-                  <h3 className="font-bold text-navy text-lg">Enquiry Generated!</h3>
-                  <p className="text-sm text-slate-700">Your details have been sent via WhatsApp.</p>
+                  <h3 className="font-bold text-navy text-lg">Enquiry Submitted!</h3>
+                  <p className="text-sm text-slate-700">Your booking request has been saved and sent via WhatsApp.</p>
                   <button
                     onClick={() => setFormSubmitted(false)}
                     className="text-xs text-teal-dark font-bold underline hover:no-underline pt-2"
@@ -158,6 +224,13 @@ export default function Contact() {
                 </div>
               ) : (
                 <form onSubmit={handleFormSubmit} className="space-y-4">
+                  {error && (
+                    <div className="p-3 rounded-xl bg-red-50 border border-red-200 flex items-start gap-2">
+                      <AlertCircle className="w-4 h-4 text-red-600 shrink-0 mt-0.5" />
+                      <p className="text-xs text-red-700">{error}</p>
+                    </div>
+                  )}
+
                   <div>
                     <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">Your Name</label>
                     <div className="relative">
@@ -165,10 +238,11 @@ export default function Contact() {
                       <input
                         type="text"
                         required
+                        disabled={isSubmitting}
                         placeholder="e.g. Rahul Patil"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="w-full pl-10 pr-4 py-3 text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal focus:border-transparent transition"
+                        className="w-full pl-10 pr-4 py-3 text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal focus:border-transparent transition disabled:opacity-50 disabled:cursor-not-allowed"
                       />
                     </div>
                   </div>
@@ -181,10 +255,11 @@ export default function Contact() {
                         <input
                           type="tel"
                           required
+                          disabled={isSubmitting}
                           placeholder="e.g. 98220 12345"
                           value={formData.phone}
                           onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                          className="w-full pl-10 pr-4 py-3 text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal focus:border-transparent transition"
+                          className="w-full pl-10 pr-4 py-3 text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal focus:border-transparent transition disabled:opacity-50 disabled:cursor-not-allowed"
                         />
                       </div>
                     </div>
@@ -195,9 +270,10 @@ export default function Contact() {
                         <Calendar className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                         <input
                           type="date"
+                          disabled={isSubmitting}
                           value={formData.date}
                           onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                          className="w-full pl-10 pr-4 py-3 text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal focus:border-transparent transition"
+                          className="w-full pl-10 pr-4 py-3 text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal focus:border-transparent transition disabled:opacity-50 disabled:cursor-not-allowed"
                         />
                       </div>
                     </div>
@@ -207,8 +283,9 @@ export default function Contact() {
                     <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">Selected Experience</label>
                     <select
                       value={formData.experience}
+                      disabled={isSubmitting}
                       onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
-                      className="w-full px-4 py-3 text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal focus:border-transparent transition"
+                      className="w-full px-4 py-3 text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal focus:border-transparent transition disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {EXPERIENCES.map((exp) => (
                         <option key={exp.id} value={exp.title}>{exp.title}</option>
@@ -219,10 +296,20 @@ export default function Contact() {
 
                   <button
                     type="submit"
-                    className="w-full mt-2 inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl bg-teal text-white font-bold text-sm hover:bg-teal-dark transition shadow-md shadow-teal/20 active:scale-[0.99]"
+                    disabled={isSubmitting}
+                    className="w-full mt-2 inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl bg-teal text-white font-bold text-sm hover:bg-teal-dark transition shadow-md shadow-teal/20 active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100"
                   >
-                    <WhatsAppIcon size={16} />
-                    <span>Check Availability on WhatsApp</span>
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Submitting...</span>
+                      </>
+                    ) : (
+                      <>
+                        <WhatsAppIcon size={16} />
+                        <span>Check Availability on WhatsApp</span>
+                      </>
+                    )}
                   </button>
                 </form>
               )}
