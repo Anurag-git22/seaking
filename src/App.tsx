@@ -117,7 +117,10 @@ const GALLERY_ITEMS = [
   { src: '/images/devbagh-beach.jpg', title: 'Devbag Beach - Calm Golden Shoreline', category: 'Beach' },
   { src: '/images/Seagull.jpg', title: 'Seagull Birds & Island Safari', category: 'Wildlife' },
   { src: '/images/Minikerala.jpg', title: 'Mini Kerala - Palm-Fringed Backwaters', category: 'Backwaters' },
-  { src: '/images/crocodile-point.jpg', title: 'Crocodile Point - Rocky Coastal Viewpoint', category: 'Coastal' }
+  { src: '/images/crocodile-point.jpg', title: 'Crocodile Point - Rocky Coastal Viewpoint', category: 'Coastal' },
+  { src: '/images/Gallery5.jpg', title: 'Sea King Boating Safari Experience', category: 'Safari Tour' },
+  { src: '/images/Gallery6.jpg', title: 'Malvan Coastal Waters & Boat Tour', category: 'Coastal Safari' },
+  { src: '/images/Gallery7.jpg', title: 'Sea King Safari Guests on Tour', category: 'Tour Experience' }
 ]
 
 // Video files for gallery
