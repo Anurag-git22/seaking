@@ -36,46 +36,31 @@ export default function Contact() {
     setError(null)
 
     try {
-      // Create a hidden iframe to submit the form
-      // This is the standard way to handle Google Apps Script POST requests
-      const iframe = document.createElement('iframe')
-      iframe.name = 'hidden-form-iframe'
-      iframe.style.display = 'none'
-      document.body.appendChild(iframe)
-
-      // Create a temporary form
-      const tempForm = document.createElement('form')
-      tempForm.method = 'POST'
-      tempForm.action = GOOGLE_SCRIPT_URL
-      tempForm.target = 'hidden-form-iframe'
-
-      // Add form fields
-      const fields = {
+      // Prepare form data as URL-encoded string
+      const formBody = new URLSearchParams({
         'name': formData.name,
         'phone': formData.phone,
         'date': formData.date || 'Flexible',
         'experience': formData.experience
-      }
+      }).toString()
 
-      Object.entries(fields).forEach(([key, value]) => {
-        const input = document.createElement('input')
-        input.type = 'hidden'
-        input.name = key
-        input.value = value
-        tempForm.appendChild(input)
+      // Submit to Google Apps Script using fetch with redirect follow
+      const response = await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: formBody,
+        redirect: 'follow' // Follow the Google Apps Script redirect
       })
 
-      document.body.appendChild(tempForm)
+      // Check if request completed (even with redirect)
+      if (!response.ok && response.type !== 'opaque') {
+        throw new Error('Submission failed')
+      }
 
-      // Submit the form
-      tempForm.submit()
-
-      // Wait a moment for the submission to process
-      await new Promise(resolve => setTimeout(resolve, 1500))
-
-      // Clean up
-      document.body.removeChild(tempForm)
-      document.body.removeChild(iframe)
+      // Wait a moment to ensure Google Sheet updates
+      await new Promise(resolve => setTimeout(resolve, 1000))
 
       // Success: Open WhatsApp with prefilled message
       const msg = `*New Safari Enquiry - Sea King Malvan*%0A• *Name:* ${encodeURIComponent(formData.name)}%0A• *Phone:* ${encodeURIComponent(formData.phone)}%0A• *Date:* ${encodeURIComponent(formData.date || 'Flexible')}%0A• *Experience:* ${encodeURIComponent(formData.experience)}`
@@ -317,6 +302,40 @@ export default function Contact() {
 
           </div>
         </div>
+
+        {/* CTA BANNER */}
+        <section className="py-16 sm:py-24 bg-gradient-to-br from-teal to-teal-dark text-white">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+            <motion.h2 
+              className="text-3xl sm:text-4xl font-extrabold mb-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              Ready for Your Adventure?
+            </motion.h2>
+            <motion.p 
+              className="text-lg sm:text-xl text-teal-soft mb-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+            >
+              Book your Malvan boat safari today
+            </motion.p>
+            <motion.a
+              href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hello! I want to book a Sea King Safari tour.')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-white text-teal font-bold text-lg hover:bg-slate-100 transition-all shadow-xl active:scale-95"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+            >
+              <WhatsAppIcon size={24} />
+              <span>Book on WhatsApp</span>
+            </motion.a>
+          </div>
+        </section>
       </div>
     </>
   )
