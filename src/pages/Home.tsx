@@ -98,19 +98,29 @@ export default function Home() {
         </div>
 
         <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center text-white pt-20">
-          <motion.div 
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-medium text-teal-soft mb-6 shadow-sm"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="w-4 h-4 rounded-full overflow-hidden shrink-0 border border-teal-light">
-              <img src="/images/Head.jpg" alt="Logo" className="w-full h-full object-cover" />
-            </div>
-            <span>Malvan, Maharashtra</span>
-            <span className="text-white/40">•</span>
-            <span>Devbag & Tarkarli</span>
-          </motion.div>
+<motion.div 
+              className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-medium text-teal-soft mb-6 shadow-sm"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-white p-[2px] ring-1 ring-white/40 flex-shrink-0">
+                <img
+                  src="/images/logo-icon.png"
+                  alt="Sea King logo"
+                  width="512"
+                  height="512"
+                  className="h-full w-full object-contain"
+                />
+              </div>
+              <span className="text-[11px] sm:text-xs leading-tight">
+                Malvan, Maharashtra
+              </span>
+              <span className="text-white/40">•</span>
+              <span className="text-[11px] sm:text-xs leading-tight max-[359px]:text-[10px]">
+                Devbag & Tarkarli
+              </span>
+            </motion.div>
 
           <motion.h1 
             className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight mb-4 text-white drop-shadow-md"
