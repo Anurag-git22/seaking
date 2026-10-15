@@ -104,13 +104,21 @@ export const Navbar = () => {
             <span className="absolute bottom-0 left-0 w-full h-0.5 bg-teal rounded-full scale-x-0 opacity-0 group-hover:scale-x-100 group-hover:opacity-75 transition-all duration-300" />
           </a>
 
-          <a
-            href="/#packages"
-            className="group relative py-1 text-slate-200 hover:text-white transition-colors focus:outline-none"
+          <Link
+            to="/malvan-packages"
+            className={`group relative py-1 transition-colors focus:outline-none ${
+              isActive('/malvan-packages') || isActive('/devbag-packages') ? 'text-teal-soft font-semibold' : 'text-slate-200 hover:text-white'
+            }`}
           >
             <span>Packages</span>
-            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-teal rounded-full scale-x-0 opacity-0 group-hover:scale-x-100 group-hover:opacity-75 transition-all duration-300" />
-          </a>
+            <span 
+              className={`absolute bottom-0 left-0 w-full h-0.5 bg-teal rounded-full transition-all duration-300 ${
+                isActive('/malvan-packages') || isActive('/devbag-packages')
+                  ? 'scale-x-100 opacity-100' 
+                  : 'scale-x-0 opacity-0 group-hover:scale-x-100 group-hover:opacity-75'
+              }`} 
+            />
+          </Link>
 
           <Link
             to="/gallery"
@@ -234,12 +242,16 @@ export const Navbar = () => {
                   About
                 </a>
 
-                <a
-                  href="/#packages"
-                  className="block py-3 px-4 rounded-lg text-sm text-slate-200 hover:bg-white/5 hover:text-white transition-colors min-h-[44px] flex items-center"
+                <Link
+                  to="/malvan-packages"
+                  className={`block py-3 px-4 rounded-lg text-sm transition-colors min-h-[44px] flex items-center ${
+                    isActive('/malvan-packages') || isActive('/devbag-packages')
+                      ? 'bg-teal-soft/20 text-teal-soft font-bold' 
+                      : 'text-slate-200 hover:bg-white/5 hover:text-white'
+                  }`}
                 >
                   Packages
-                </a>
+                </Link>
 
                 <Link
                   to="/gallery"
