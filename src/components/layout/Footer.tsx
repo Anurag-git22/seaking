@@ -17,10 +17,10 @@ export const Footer = () => {
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         
         {/* Main Footer Row */}
-        <div className="grid md:grid-cols-12 gap-10 pb-12 border-b border-white/10">
-          
-          {/* Brand Intro */}
-          <div className="md:col-span-4 space-y-4">
+<div className="grid md:grid-cols-12 gap-10 pb-12 border-b border-white/10">
+            
+            {/* Brand Intro */}
+            <div className="md:col-span-6 space-y-4">
             <div className="flex flex-col sm:flex-row items-center sm:items-center gap-4">
               <div className="w-[72px] h-[72px] md:w-[88px] md:h-[88px] rounded-full bg-white shadow-lg ring-2 ring-teal-300 flex items-center justify-center shrink-0">
                 <img
@@ -79,7 +79,7 @@ export const Footer = () => {
           </div>
 
           {/* Location 1 */}
-          <div className="md:col-span-4 space-y-2">
+          <div className="md:col-span-6 space-y-2">
             <h4 className="text-xs font-bold uppercase tracking-wider text-teal-soft">
               Location 1 • Devbag
             </h4>
@@ -90,27 +90,6 @@ export const Footer = () => {
             <p className="text-xs text-sand font-medium">Open daily, {LOCATIONS[0].hours}</p>
             <a
               href={LOCATIONS[0].mapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs text-teal hover:underline pt-1 focus:outline-none focus:ring-2 focus:ring-teal rounded"
-            >
-              <span>Google Maps</span>
-              <ArrowUpRight className="w-3 h-3" />
-            </a>
-          </div>
-
-          {/* Location 2 */}
-          <div className="md:col-span-4 space-y-2">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-teal-soft">
-              Location 2 • Tarkarli
-            </h4>
-            <p className="text-white font-medium text-sm">{LOCATIONS[1].name}</p>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              {LOCATIONS[1].address}, {LOCATIONS[1].state}
-            </p>
-            <p className="text-xs text-sand font-medium">Open daily, {LOCATIONS[1].hours}</p>
-            <a
-              href={LOCATIONS[1].mapsUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 text-xs text-teal hover:underline pt-1 focus:outline-none focus:ring-2 focus:ring-teal rounded"
