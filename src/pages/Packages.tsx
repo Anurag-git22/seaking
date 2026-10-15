@@ -175,7 +175,7 @@ export default function Packages() {
                 >
                   <div className="text-center mb-10">
                     <h2 className="text-3xl font-bold text-navy mb-2">
-                      Mangalmurti Scuba Diving - Malvan
+                      Sea King Scuba Diving - Malvan
                     </h2>
                     <p className="text-slate-600 text-[15px]">
                       Experience the thrill of scuba diving and water sports

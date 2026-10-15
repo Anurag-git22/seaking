@@ -33,7 +33,7 @@ export default function MalvanPackages() {
               Malvan
             </span>
             <h1 className="text-3xl sm:text-4xl font-extrabold text-navy tracking-tight mb-3">
-              Mangalmurti Scuba Diving - Malvan
+              Sea King Scuba Diving - Malvan
             </h1>
             <p className="text-slate-600 text-sm sm:text-base">
               Experience the thrill of scuba diving and water sports
