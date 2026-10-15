@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Phone, ArrowUpRight } from 'lucide-react'
+import { Phone, ArrowUpRight, MapPin } from 'lucide-react'
 import { PHONE_NUMBER, PHONE_DISPLAY, WHATSAPP_NUMBER, INSTAGRAM_URL, LOCATIONS } from '../../data/constants'
 import { WhatsAppIcon } from '../WhatsAppIcon'
 
@@ -21,21 +21,38 @@ export const Footer = () => {
           
           {/* Brand Intro */}
           <div className="md:col-span-4 space-y-4">
-            <div className="flex flex-col items-center md:items-start gap-3">
-              <div className="w-24 h-24 rounded-full bg-white p-1 shadow-lg ring-2 ring-teal-300 flex items-center justify-center">
+            <div className="flex flex-col sm:flex-row items-center sm:items-center gap-4">
+              <div className="w-[72px] h-[72px] md:w-[88px] md:h-[88px] rounded-full bg-white shadow-lg ring-2 ring-teal-300 flex items-center justify-center shrink-0">
                 <img
-                  src="/images/logo.png"
+                  src="/images/logo-icon.png"
                   alt="Sea King Scuba Diving logo"
-                  width="96"
-                  height="96"
+                  width="512"
+                  height="512"
                   className="h-full w-full object-contain"
                 />
               </div>
-              <span className="font-bold text-xl text-white">Sea King Boating Safari</span>
+              <div className="flex flex-col">
+                <span className="font-bold text-[22px] md:text-[26px] text-white leading-tight">
+                  Sea King Scuba Diving
+                </span>
+                <span className="text-[10px] md:text-[11px] font-medium tracking-[0.15em] uppercase text-teal-soft mt-1 leading-none">
+                  SCUBA • WATER SPORTS • BOATING
+                </span>
+              </div>
             </div>
-            <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
-              Authentic backwater cruises, island adventures, and dolphin safaris in Malvan, Sindhudurg, Maharashtra.
+            <p className="text-[15px] text-slate-300 leading-relaxed max-w-md">
+              Scuba diving and water sports in Malvan, boating safaris in Devbag. Safe, fun and unforgettable days on the Konkan coast.
             </p>
+            <div className="flex flex-wrap items-center gap-2 pt-1">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-slate-200 text-xs font-medium">
+                <MapPin className="w-3 h-3" />
+                Malvan
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-slate-200 text-xs font-medium">
+                <MapPin className="w-3 h-3" />
+                Devbag, Near Mahapurush Mandir
+              </span>
+            </div>
             <div className="flex items-center gap-3 pt-2">
               <a
                 href={`tel:${PHONE_NUMBER}`}
