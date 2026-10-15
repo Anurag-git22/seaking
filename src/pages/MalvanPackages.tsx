@@ -1,17 +1,10 @@
-import { useState } from 'react'
-import { CheckCircle2, Waves, Wind } from 'lucide-react'
+import { CheckCircle2 } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { SEO } from '../components/SEO'
 import { WHATSAPP_NUMBER } from '../data/constants'
-import { MALVAN_PACKAGES, MALVAN_ACTIVITIES } from '../data/packages'
+import { MALVAN_PACKAGES } from '../data/packages'
 import { WhatsAppIcon } from '../components/WhatsAppIcon'
-
-const ActivityIcon = ({ name }: { name: string }) => {
-  if (name.toLowerCase().includes('scuba') || name.toLowerCase().includes('diving')) {
-    return <Waves className="w-4 h-4" />
-  }
-  return <Wind className="w-4 h-4" />
-}
+import { MalvanActivitiesGrid } from '../components/MalvanActivitiesGrid'
 
 export default function MalvanPackages() {
   return (
@@ -47,21 +40,7 @@ export default function MalvanPackages() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <div className="flex flex-wrap justify-center gap-3">
-              {MALVAN_ACTIVITIES.slice(0, 2).map((activity, index) => (
-                <div
-                  key={index}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-700 font-medium shadow-sm min-h-[44px]"
-                >
-                  <ActivityIcon name={activity} />
-                  <span>{activity}</span>
-                </div>
-              ))}
-              <div className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-teal-soft/30 border border-teal/20 text-sm text-teal-dark font-bold shadow-sm min-h-[44px]">
-                <Wind className="w-4 h-4" />
-                <span>Water Sports (+4 rides)</span>
-              </div>
-            </div>
+            <MalvanActivitiesGrid />
           </motion.div>
 
           {/* Packages */}

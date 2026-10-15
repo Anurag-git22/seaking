@@ -14,7 +14,7 @@ export const MALVAN_PACKAGES = [
   },
   { 
     id: "deep", 
-    title: "Deep Scuba Package", 
+    title: "Deep Sea Scuba Package", 
     price: 1299, 
     unit: "per person", 
     badge: "Best Experience",
@@ -29,12 +29,12 @@ export const MALVAN_PACKAGES = [
 ];
 
 export const MALVAN_ACTIVITIES = [
-  "Cylinder Scuba Diving (with video)", 
-  "Parasailing", 
-  "Jet Ski", 
-  "Seating Bumper Ride", 
-  "Sleeping Bumper Ride", 
-  "Banana Ride"
+  { id: "scuba",    name: "Cylinder Scuba Diving", note: "with video", img: "/images/malvan/scuba-diving.jpg", group: "main" },
+  { id: "para",     name: "Parasailing",           img: "/images/malvan/parasailing.jpg",   group: "main" },
+  { id: "jet",      name: "Jet Ski",               img: "/images/malvan/jet-ski.jpg",        group: "water" },
+  { id: "seat",     name: "Seating Bumper Ride",   img: "/images/malvan/seating-bumper.jpg", group: "water" },
+  { id: "sleep",    name: "Sleeping Bumper Ride",  img: "/images/malvan/sleeping-bumper.jpg",group: "water" },
+  { id: "banana",   name: "Banana Ride",           img: "/images/malvan/banana-ride.jpg",    group: "water" },
 ];
 
 export const DEVBAG_PACKAGES = [

@@ -1,19 +1,13 @@
 import { useState, useEffect } from 'react'
-import { CheckCircle2, Clock, Droplet, ChevronDown, ChevronUp, Waves, Wind } from 'lucide-react'
+import { CheckCircle2, Clock, Droplet, ChevronDown, ChevronUp } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { WHATSAPP_NUMBER } from '../data/constants'
-import { MALVAN_PACKAGES, MALVAN_ACTIVITIES, DEVBAG_PACKAGES, KAYAK_PACKAGE } from '../data/packages'
+import { MALVAN_PACKAGES, DEVBAG_PACKAGES, KAYAK_PACKAGE } from '../data/packages'
 import { WhatsAppIcon } from './WhatsAppIcon'
 import { useInView } from '../hooks/useInView'
+import { MalvanActivitiesGrid } from './MalvanActivitiesGrid'
 
 type LocationTab = 'malvan' | 'devbag'
-
-const ActivityIcon = ({ name }: { name: string }) => {
-  if (name.toLowerCase().includes('scuba') || name.toLowerCase().includes('diving')) {
-    return <Waves className="w-3.5 h-3.5" />
-  }
-  return <Wind className="w-3.5 h-3.5" />
-}
 
 export const PackagesSection = () => {
   const [activeTab, setActiveTab] = useState<LocationTab>('malvan')
@@ -147,17 +141,7 @@ export const PackagesSection = () => {
                 </h3>
 
                 {/* Activities */}
-                <div className="flex flex-wrap justify-center gap-2 mb-10">
-                  {MALVAN_ACTIVITIES.map((activity, index) => (
-                    <div
-                      key={index}
-                      className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-xs text-slate-700 font-medium shadow-sm min-h-[44px]"
-                    >
-                      <ActivityIcon name={activity} />
-                      <span>{activity}</span>
-                    </div>
-                  ))}
-                </div>
+                <MalvanActivitiesGrid />
               </div>
 
               {/* Packages */}

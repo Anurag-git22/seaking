@@ -1,27 +1,13 @@
 import { useState, useEffect, useRef } from 'react'
-import { CheckCircle2, Waves, Wind, Clock, Droplet, ChevronDown, ChevronUp, Camera, MapPin, Palmtree } from 'lucide-react'
+import { CheckCircle2, Waves, Clock, Droplet, ChevronDown, ChevronUp, Camera, MapPin, Palmtree } from 'lucide-react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { SEO } from '../components/SEO'
 import { WHATSAPP_NUMBER } from '../data/constants'
-import { MALVAN_PACKAGES, MALVAN_ACTIVITIES, DEVBAG_PACKAGES, KAYAK_PACKAGE } from '../data/packages'
+import { MALVAN_PACKAGES, DEVBAG_PACKAGES, KAYAK_PACKAGE } from '../data/packages'
 import { WhatsAppIcon } from '../components/WhatsAppIcon'
+import { MalvanActivitiesGrid } from '../components/MalvanActivitiesGrid'
 
 type LocationTab = 'malvan' | 'devbag'
-
-const ActivityIcon = ({ name }: { name: string }) => {
-  if (name.toLowerCase().includes('scuba') || name.toLowerCase().includes('diving')) {
-    return (
-      <div className="w-12 h-12 rounded-full bg-teal/20 flex items-center justify-center mb-2">
-        <Waves className="w-6 h-6 text-teal" />
-      </div>
-    )
-  }
-  return (
-    <div className="w-12 h-12 rounded-full bg-teal/20 flex items-center justify-center mb-2">
-      <Wind className="w-6 h-6 text-teal" />
-    </div>
-  )
-}
 
 const AnimatedPrice = ({ price }: { price: number }) => {
   const [displayPrice, setDisplayPrice] = useState(0)
@@ -184,43 +170,7 @@ export default function Packages() {
 
                   {/* Activities Grid */}
                   <div className="mb-14">
-                    <div className="grid grid-cols-3 md:grid-cols-6 gap-4 max-w-4xl mx-auto">
-                      {MALVAN_ACTIVITIES.slice(0, 2).map((activity, index) => (
-                        <motion.div
-                          key={index}
-                          className="flex flex-col items-center text-center"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.4, delay: index * 0.05 }}
-                        >
-                          <ActivityIcon name={activity} />
-                          <span className="text-[13px] text-slate-700 font-medium leading-tight">
-                            {activity}
-                          </span>
-                        </motion.div>
-                      ))}
-                      
-                      {/* Water Sports grouped */}
-                      {[...Array(4)].map((_, index) => (
-                        <motion.div
-                          key={`water-${index}`}
-                          className="flex flex-col items-center text-center"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.4, delay: (2 + index) * 0.05 }}
-                        >
-                          <div className="w-12 h-12 rounded-full bg-teal/20 flex items-center justify-center mb-2">
-                            <Wind className="w-6 h-6 text-teal" />
-                          </div>
-                          <span className="text-[13px] text-slate-700 font-medium leading-tight">
-                            {MALVAN_ACTIVITIES[2 + index]?.split(' ')[0] || 'Ride'}
-                          </span>
-                        </motion.div>
-                      ))}
-                    </div>
-                    <p className="text-center text-[13px] text-teal-dark font-semibold mt-4">
-                      Water Sports (+4 rides)
-                    </p>
+                    <MalvanActivitiesGrid />
                   </div>
 
                   {/* Malvan Packages */}
