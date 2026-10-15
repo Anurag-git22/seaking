@@ -87,7 +87,7 @@ export const MalvanActivitiesGrid = () => {
       <p className="text-center text-sm font-semibold text-teal mb-3">
         Includes Water Sports (+4 rides)
       </p>
-      <div className="grid grid-cols-2 gap-3 md:gap-4 max-w-xl mx-auto">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 max-w-[760px] mx-auto">
         {MALVAN_ACTIVITIES.map((activity, index) => (
           <ActivityTile key={activity.id} activity={activity} index={index} reduced={reduced} />
         ))}
