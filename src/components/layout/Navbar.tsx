@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Menu, X, ChevronDown, Phone } from 'lucide-react'
+import { Menu, X, Phone } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { PHONE_NUMBER, WHATSAPP_NUMBER } from '../../data/constants'
 import { WhatsAppIcon } from '../WhatsAppIcon'
@@ -8,13 +8,7 @@ import { WhatsAppIcon } from '../WhatsAppIcon'
 export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [malvanOpen, setMalvanOpen] = useState(false)
-  const [devbagOpen, setDevbagOpen] = useState(false)
-  const [malvanMobileOpen, setMalvanMobileOpen] = useState(false)
-  const [devbagMobileOpen, setDevbagMobileOpen] = useState(false)
   const location = useLocation()
-  const malvanRef = useRef<HTMLDivElement>(null)
-  const devbagRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,8 +22,6 @@ export const Navbar = () => {
   // Close mobile menu on route change
   useEffect(() => {
     setMobileMenuOpen(false)
-    setMalvanMobileOpen(false)
-    setDevbagMobileOpen(false)
   }, [location.pathname])
 
   // Lock body scroll when mobile menu is open
@@ -44,26 +36,10 @@ export const Navbar = () => {
     }
   }, [mobileMenuOpen])
 
-  // Close dropdowns on outside click
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (malvanRef.current && !malvanRef.current.contains(event.target as Node)) {
-        setMalvanOpen(false)
-      }
-      if (devbagRef.current && !devbagRef.current.contains(event.target as Node)) {
-        setDevbagOpen(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
-
-  // Close dropdowns on Escape key
+  // Close mobile menu on Escape key
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        setMalvanOpen(false)
-        setDevbagOpen(false)
         setMobileMenuOpen(false)
       }
     }
@@ -72,17 +48,6 @@ export const Navbar = () => {
   }, [])
 
   const isActive = (path: string) => location.pathname === path
-
-  const malvanItems = [
-    { path: '/#packages?loc=malvan', label: 'Scuba Diving' },
-    { path: '/#packages?loc=malvan', label: 'Water Sports' },
-    { path: '/#packages?loc=malvan', label: 'Packages' }
-  ]
-
-  const devbagItems = [
-    { path: '/experiences', label: 'Boating Tours' },
-    { path: '/#packages?loc=devbag', label: 'Boating Packages' }
-  ]
 
   return (
     <header 
@@ -131,115 +96,13 @@ export const Navbar = () => {
             />
           </Link>
 
-          <Link
-            to="/#about"
+          <a
+            href="/#about"
             className="group relative py-1 text-slate-200 hover:text-white transition-colors focus:outline-none"
           >
             <span>About</span>
             <span className="absolute bottom-0 left-0 w-full h-0.5 bg-teal rounded-full scale-x-0 opacity-0 group-hover:scale-x-100 group-hover:opacity-75 transition-all duration-300" />
-          </Link>
-
-          {/* Malvan Dropdown */}
-          <div 
-            ref={malvanRef}
-            className="relative"
-            onMouseEnter={() => setMalvanOpen(true)}
-            onMouseLeave={() => setMalvanOpen(false)}
-          >
-            <button
-              onClick={() => setMalvanOpen(!malvanOpen)}
-              onFocus={() => setMalvanOpen(true)}
-              className="group relative py-1 text-slate-200 hover:text-white transition-colors focus:outline-none inline-flex items-center gap-1"
-              aria-haspopup="true"
-              aria-expanded={malvanOpen}
-              aria-label="Malvan services menu"
-            >
-              <span>Malvan</span>
-              <ChevronDown 
-                className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                  malvanOpen ? 'rotate-180' : ''
-                }`}
-              />
-            </button>
-            
-            <AnimatePresence>
-              {malvanOpen && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.2 }}
-                  className="absolute top-full left-0 mt-2 w-56 bg-white rounded-2xl shadow-xl overflow-hidden"
-                >
-                  <div className="px-4 py-2 bg-teal-soft/20 border-b border-teal/10">
-                    <p className="text-[10px] font-bold text-teal-dark uppercase tracking-wider">
-                      Mangalmurti Scuba Diving - Malvan
-                    </p>
-                  </div>
-                  {malvanItems.map((item) => (
-                    <Link
-                      key={item.label}
-                      to={item.path}
-                      className="block px-4 py-2.5 text-sm text-slate-700 hover:bg-teal-soft/30 hover:text-teal-dark transition-colors focus:outline-none focus:bg-teal-soft/30 focus:text-teal-dark min-h-[44px] flex items-center"
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-
-          {/* Devbag Dropdown */}
-          <div 
-            ref={devbagRef}
-            className="relative"
-            onMouseEnter={() => setDevbagOpen(true)}
-            onMouseLeave={() => setDevbagOpen(false)}
-          >
-            <button
-              onClick={() => setDevbagOpen(!devbagOpen)}
-              onFocus={() => setDevbagOpen(true)}
-              className="group relative py-1 text-slate-200 hover:text-white transition-colors focus:outline-none inline-flex items-center gap-1"
-              aria-haspopup="true"
-              aria-expanded={devbagOpen}
-              aria-label="Devbag services menu"
-            >
-              <span>Devbag</span>
-              <ChevronDown 
-                className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                  devbagOpen ? 'rotate-180' : ''
-                }`}
-              />
-            </button>
-            
-            <AnimatePresence>
-              {devbagOpen && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.2 }}
-                  className="absolute top-full left-0 mt-2 w-56 bg-white rounded-2xl shadow-xl overflow-hidden"
-                >
-                  <div className="px-4 py-2 bg-teal-soft/20 border-b border-teal/10">
-                    <p className="text-[10px] font-bold text-teal-dark uppercase tracking-wider">
-                      Devbag - Near Mahapurush Mandir
-                    </p>
-                  </div>
-                  {devbagItems.map((item) => (
-                    <Link
-                      key={item.label}
-                      to={item.path}
-                      className="block px-4 py-2.5 text-sm text-slate-700 hover:bg-teal-soft/30 hover:text-teal-dark transition-colors focus:outline-none focus:bg-teal-soft/30 focus:text-teal-dark min-h-[44px] flex items-center"
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+          </a>
 
           <a
             href="/#packages"
@@ -364,100 +227,12 @@ export const Navbar = () => {
                   Home
                 </Link>
 
-                <Link
-                  to="/#about"
+                <a
+                  href="/#about"
                   className="block py-3 px-4 rounded-lg text-sm text-slate-200 hover:bg-white/5 hover:text-white transition-colors min-h-[44px] flex items-center"
                 >
                   About
-                </Link>
-
-                {/* Malvan Accordion */}
-                <div>
-                  <button
-                    onClick={() => setMalvanMobileOpen(!malvanMobileOpen)}
-                    className="w-full flex items-center justify-between py-3 px-4 rounded-lg text-sm text-slate-200 hover:bg-white/5 hover:text-white transition-colors min-h-[44px]"
-                    aria-expanded={malvanMobileOpen}
-                    aria-label="Malvan services menu"
-                  >
-                    <span>Malvan</span>
-                    <ChevronDown 
-                      className={`w-4 h-4 transition-transform duration-200 ${
-                        malvanMobileOpen ? 'rotate-180' : ''
-                      }`}
-                    />
-                  </button>
-                  
-                  <AnimatePresence initial={false}>
-                    {malvanMobileOpen && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                        className="overflow-hidden"
-                      >
-                        <div className="ml-4 mt-1 space-y-1 border-l-2 border-teal/30 pl-3">
-                          <p className="text-[10px] font-bold text-teal-soft uppercase tracking-wider mb-2 px-2">
-                            Mangalmurti Scuba Diving - Malvan
-                          </p>
-                          {malvanItems.map((item) => (
-                            <Link
-                              key={item.label}
-                              to={item.path}
-                              className="block py-2 px-2 rounded text-xs text-slate-300 hover:text-white hover:bg-white/5 transition-colors min-h-[44px] flex items-center"
-                            >
-                              {item.label}
-                            </Link>
-                          ))}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-
-                {/* Devbag Accordion */}
-                <div>
-                  <button
-                    onClick={() => setDevbagMobileOpen(!devbagMobileOpen)}
-                    className="w-full flex items-center justify-between py-3 px-4 rounded-lg text-sm text-slate-200 hover:bg-white/5 hover:text-white transition-colors min-h-[44px]"
-                    aria-expanded={devbagMobileOpen}
-                    aria-label="Devbag services menu"
-                  >
-                    <span>Devbag</span>
-                    <ChevronDown 
-                      className={`w-4 h-4 transition-transform duration-200 ${
-                        devbagMobileOpen ? 'rotate-180' : ''
-                      }`}
-                    />
-                  </button>
-                  
-                  <AnimatePresence initial={false}>
-                    {devbagMobileOpen && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                        className="overflow-hidden"
-                      >
-                        <div className="ml-4 mt-1 space-y-1 border-l-2 border-teal/30 pl-3">
-                          <p className="text-[10px] font-bold text-teal-soft uppercase tracking-wider mb-2 px-2">
-                            Devbag - Near Mahapurush Mandir
-                          </p>
-                          {devbagItems.map((item) => (
-                            <Link
-                              key={item.label}
-                              to={item.path}
-                              className="block py-2 px-2 rounded text-xs text-slate-300 hover:text-white hover:bg-white/5 transition-colors min-h-[44px] flex items-center"
-                            >
-                              {item.label}
-                            </Link>
-                          ))}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
+                </a>
 
                 <a
                   href="/#packages"
