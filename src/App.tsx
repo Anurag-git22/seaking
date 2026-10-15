@@ -8,6 +8,7 @@ const Experiences = lazy(() => import('./pages/Experiences'))
 const Gallery = lazy(() => import('./pages/Gallery'))
 const Locations = lazy(() => import('./pages/Locations'))
 const Contact = lazy(() => import('./pages/Contact'))
+const Packages = lazy(() => import('./pages/Packages'))
 const MalvanPackages = lazy(() => import('./pages/MalvanPackages'))
 const DevbagPackages = lazy(() => import('./pages/DevbagPackages'))
 const NotFound = lazy(() => import('./pages/NotFound'))
@@ -26,6 +27,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="experiences" element={<Experiences />} />
+          <Route path="packages" element={<Packages />} />
           <Route path="malvan-packages" element={<MalvanPackages />} />
           <Route path="devbag-packages" element={<DevbagPackages />} />
           <Route path="gallery" element={<Gallery />} />
