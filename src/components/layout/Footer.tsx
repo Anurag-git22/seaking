@@ -22,12 +22,12 @@ export const Footer = () => {
           {/* Brand Intro */}
           <div className="md:col-span-4 space-y-4">
             <div className="flex flex-col items-center md:items-start gap-3">
-              <div className="w-16 h-16 rounded-full bg-white p-1 shadow-md ring-2 ring-teal-400/60 flex items-center justify-center">
+              <div className="w-24 h-24 rounded-full bg-white p-1 shadow-lg ring-2 ring-teal-300 flex items-center justify-center">
                 <img
                   src="/images/logo.png"
                   alt="Sea King Scuba Diving logo"
-                  width="64"
-                  height="64"
+                  width="96"
+                  height="96"
                   className="h-full w-full object-contain"
                 />
               </div>
