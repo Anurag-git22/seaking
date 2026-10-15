@@ -51,9 +51,9 @@ export const Navbar = () => {
 
   return (
     <header 
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 overflow-visible ${
+      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         isScrolled 
-          ? 'bg-navy/95 backdrop-blur-md border-b border-navy-light/40 shadow-xl h-16 py-2.5' 
+          ? 'bg-navy/95 backdrop-blur-md border-b border-white/10 shadow-xl h-16 py-2.5' 
           : 'bg-gradient-to-b from-navy/90 via-navy/60 to-transparent border-b border-white/10 h-20 md:h-24 py-3.5'
       }`}
     >
@@ -63,7 +63,7 @@ export const Navbar = () => {
         <Link to="/" aria-label="Sea King Scuba Diving - Home" className="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-teal rounded-lg p-0.5">
           <div
             className={`rounded-full bg-white shadow-lg ring-2 ring-teal-300 transition-all duration-300 shrink-0 ${
-              isScrolled ? 'h-11 w-11' : 'h-16 w-16 md:h-[76px] md:w-[76px] md:translate-y-[18px]'
+              isScrolled ? 'h-11 w-11' : 'h-16 w-16 md:h-[72px] md:w-[72px]'
             } group-hover:scale-105`}
           >
             <img
