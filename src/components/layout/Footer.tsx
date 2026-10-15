@@ -48,10 +48,6 @@ export const Footer = () => {
                 <MapPin className="w-3 h-3" />
                 Malvan
               </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-slate-200 text-xs font-medium">
-                <MapPin className="w-3 h-3" />
-                Devbag, Near Mahapurush Mandir
-              </span>
             </div>
             <div className="flex items-center gap-3 pt-2">
               <a
