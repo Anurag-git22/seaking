@@ -60,19 +60,25 @@ export const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between">
         
         {/* Brand Logo */}
-        <Link to="/" className="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-teal rounded-lg p-0.5">
-          <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full overflow-hidden ring-2 ring-teal/80 group-hover:ring-teal shadow-md group-hover:scale-105 transition-all shrink-0 bg-navy">
-            <img 
-              src="/images/Head.jpg" 
-              alt="Sea King Scuba Diving Official Logo" 
-              className="w-full h-full object-cover" 
+        <Link to="/" aria-label="Sea King Scuba Diving - Home" className="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-teal rounded-lg p-0.5">
+          <div
+            className={`rounded-full bg-white p-1 shadow-md ring-2 ring-teal-400/60 transition-all duration-300 shrink-0 ${
+              isScrolled ? 'h-[46px] w-[46px]' : 'h-[52px] w-[52px] md:h-[60px] md:w-[60px]'
+            } group-hover:scale-105`}
+          >
+            <img
+              src="/images/logo.png"
+              alt="Sea King Scuba Diving logo"
+              width="60"
+              height="60"
+              className="h-full w-full object-contain"
             />
           </div>
           <div className="flex flex-col">
             <span className="font-extrabold text-base sm:text-lg text-white tracking-tight leading-none group-hover:text-teal-soft transition-colors">
               Sea King Scuba Diving
             </span>
-            <span className="text-[8px] sm:text-[9px] font-medium tracking-[0.15em] uppercase text-teal-soft mt-1 leading-none">
+            <span className="text-[8px] sm:text-[9px] font-medium tracking-[0.15em] uppercase text-teal-soft mt-1 leading-none max-[359px]:hidden">
               SCUBA • WATER SPORTS • BOATING
             </span>
           </div>

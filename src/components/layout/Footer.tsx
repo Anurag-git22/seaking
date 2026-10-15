@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Anchor, Phone, ArrowUpRight } from 'lucide-react'
+import { Phone, ArrowUpRight } from 'lucide-react'
 import { PHONE_NUMBER, PHONE_DISPLAY, WHATSAPP_NUMBER, INSTAGRAM_URL, LOCATIONS } from '../../data/constants'
 import { WhatsAppIcon } from '../WhatsAppIcon'
 
@@ -21,9 +21,15 @@ export const Footer = () => {
           
           {/* Brand Intro */}
           <div className="md:col-span-4 space-y-4">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-full bg-teal flex items-center justify-center text-white">
-                <Anchor className="w-4 h-4" />
+            <div className="flex flex-col items-center md:items-start gap-3">
+              <div className="w-16 h-16 rounded-full bg-white p-1 shadow-md ring-2 ring-teal-400/60 flex items-center justify-center">
+                <img
+                  src="/images/logo.png"
+                  alt="Sea King Scuba Diving logo"
+                  width="64"
+                  height="64"
+                  className="h-full w-full object-contain"
+                />
               </div>
               <span className="font-bold text-xl text-white">Sea King Boating Safari</span>
             </div>
