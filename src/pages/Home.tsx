@@ -6,6 +6,7 @@ import { WHATSAPP_NUMBER, PHONE_NUMBER, EXPERIENCES, GALLERY_ITEMS } from '../da
 import { WhatsAppIcon } from '../components/WhatsAppIcon'
 import { useInView } from '../hooks/useInView'
 import { useCountUp } from '../hooks/useCountUp'
+import { PackagesSection } from '../components/PackagesSection'
 import { useState } from 'react'
 
 // Google Apps Script Web App URL
@@ -243,6 +244,9 @@ export default function Home() {
           </Link>
         </div>
       </section>
+
+      {/* PACKAGES SECTION */}
+      <PackagesSection />
 
       {/* GALLERY PREVIEW */}
       <section className="py-16 sm:py-24 bg-slate-100/70 border-y border-slate-200/60">
