@@ -118,7 +118,7 @@
 │       ₹1,299           │ ← Large teal price
 │      per person         │ ← Unit
 │                         │
-│ ✓ Deep scuba diving... │ ← Checklist items
+│ ✓ Deep Sea scuba diving... │ ← Checklist items
 │ ✓ Parasailing          │
 │ ✓ Jet Ski              │
 │ ✓ Banana Ride          │

@@ -19,7 +19,7 @@ export const MALVAN_PACKAGES = [
     unit: "per person", 
     badge: "Best Experience",
     items: [
-      "Deep scuba diving (with coral video)", 
+      "Deep Sea scuba diving (with coral video)", 
       "Parasailing", 
       "Jet Ski", 
       "Banana Ride", 
