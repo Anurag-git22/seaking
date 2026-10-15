@@ -8,6 +8,8 @@ const Experiences = lazy(() => import('./pages/Experiences'))
 const Gallery = lazy(() => import('./pages/Gallery'))
 const Locations = lazy(() => import('./pages/Locations'))
 const Contact = lazy(() => import('./pages/Contact'))
+const MalvanPackages = lazy(() => import('./pages/MalvanPackages'))
+const DevbagPackages = lazy(() => import('./pages/DevbagPackages'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
 // Loading fallback
@@ -24,6 +26,8 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="experiences" element={<Experiences />} />
+          <Route path="malvan-packages" element={<MalvanPackages />} />
+          <Route path="devbag-packages" element={<DevbagPackages />} />
           <Route path="gallery" element={<Gallery />} />
           <Route path="locations" element={<Locations />} />
           <Route path="contact" element={<Contact />} />

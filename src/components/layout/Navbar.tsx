@@ -74,14 +74,14 @@ export const Navbar = () => {
   const isActive = (path: string) => location.pathname === path
 
   const malvanItems = [
-    { path: '/experiences', label: 'Scuba Diving' },
-    { path: '/experiences', label: 'Water Sports' },
-    { path: '/experiences', label: 'Packages' }
+    { path: '/malvan-packages', label: 'Scuba Diving' },
+    { path: '/malvan-packages', label: 'Water Sports' },
+    { path: '/malvan-packages', label: 'Packages' }
   ]
 
   const devbagItems = [
     { path: '/experiences', label: 'Boating Tours' },
-    { path: '/experiences', label: 'Boating Packages' }
+    { path: '/devbag-packages', label: 'Boating Packages' }
   ]
 
   return (
