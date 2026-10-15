@@ -244,6 +244,91 @@ export default function Home() {
         </div>
       </section>
 
+      {/* PACKAGES PREVIEW */}
+      <section className="py-16 sm:py-24 bg-gradient-to-br from-teal-soft/5 via-white to-teal-soft/10 border-y border-slate-200/60">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-12">
+            <span className="inline-block px-3 py-1 rounded-full bg-teal-soft text-teal-dark text-xs font-bold tracking-wide uppercase mb-3">
+              Packages
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-navy tracking-tight mb-3">
+              Scuba Diving & Boating Packages
+            </h2>
+            <p className="text-slate-500 text-sm sm:text-base">
+              Explore our curated packages for Malvan and Devbag
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-8">
+            {/* Malvan Card */}
+            <div className="bg-white rounded-2xl border-2 border-slate-200 overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+              <div className="relative h-48 overflow-hidden">
+                <img
+                  src="/images/Scuba.webp"
+                  alt="Malvan Scuba Diving"
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/40 to-transparent" />
+                <div className="absolute bottom-4 left-4 right-4">
+                  <h3 className="text-xl font-bold text-white mb-1">Malvan</h3>
+                  <p className="text-teal-soft text-sm font-medium">Scuba & Water Sports</p>
+                </div>
+              </div>
+              <div className="p-6">
+                <p className="text-slate-600 text-sm mb-4">
+                  Experience scuba diving and thrilling water sports including parasailing, jet ski, and bumper rides.
+                </p>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <span className="text-teal font-bold text-2xl">₹999</span>
+                    <span className="text-slate-500 text-xs ml-1">onwards</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Devbag Card */}
+            <div className="bg-white rounded-2xl border-2 border-slate-200 overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+              <div className="relative h-48 overflow-hidden">
+                <img
+                  src="/images/boating.jpg"
+                  alt="Devbag Boating"
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/40 to-transparent" />
+                <div className="absolute bottom-4 left-4 right-4">
+                  <h3 className="text-xl font-bold text-white mb-1">Devbag</h3>
+                  <p className="text-teal-soft text-sm font-medium">Boating Tours</p>
+                </div>
+              </div>
+              <div className="p-6">
+                <p className="text-slate-600 text-sm mb-4">
+                  Family-friendly boat tours to Tsunami Island, mangrove safari, dolphin point, and scenic beaches.
+                </p>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <span className="text-teal font-bold text-2xl">₹900</span>
+                    <span className="text-slate-500 text-xs ml-1">onwards</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="text-center">
+            <Link
+              to="/packages"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-teal text-white font-bold hover:bg-teal-dark transition-colors shadow-md"
+            >
+              <span>View All Packages</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* GALLERY PREVIEW */}
       <section className="py-16 sm:py-24 bg-slate-100/70 border-y border-slate-200/60">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
